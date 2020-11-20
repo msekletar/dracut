@@ -86,6 +86,7 @@ install() {
             {
                 echo 'activation {'
                 echo "auto_activation_volume_list=$(auto_activation_vol_list)"
+                echo 'monitoring = 0'
                 echo '}'
             }>> "${initdir}/etc/lvm/lvm.conf"
         fi
@@ -110,6 +111,7 @@ install() {
         {
             echo 'global {'
             echo 'locking_type = 1'
+            echo 'monitoring = 0'
             echo '}'
         } > "${initdir}/etc/lvm/lvm.conf"
 
