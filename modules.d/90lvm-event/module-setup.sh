@@ -74,6 +74,13 @@ install() {
     inst lvm
     inst_rules 11-dm-lvm.rules 69-dm-lvm-metad.rules
     inst $systemdsystemunitdir/lvm2-pvscan@.service
+
+    mkdir -p ${initdir}/etc/systemd/system/lvm2-pvscan@.service.d
+    {
+        echo '[Unit]'
+        echo 'IgnoreOnIsolate=yes'
+    } >${initdir}/etc/systemd/system/lvm2-pvscan@.service.d/ignore-on-isolate.conf
+
     #FIXME: check if needed
     inst_libdir_file "libdevmapper-event-lvm*.so"
 
