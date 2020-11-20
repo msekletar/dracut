@@ -44,7 +44,7 @@ install() {
         if [ -f $dracutsysrootdir/etc/lvm/lvm.conf ]; then
             inst_simple -H /etc/lvm/lvm.conf
             # FIXME use LVM profiles in the future https://bugzilla.redhat.com/show_bug.cgi?id=1134400
-            sed -i -e 's/\(^[[:space:]]*\)locking_type[[:space:]]*=[[:space:]]*[[:digit:]]/\1locking_type = 4/' ${initdir}/etc/lvm/lvm.conf
+            sed -i -e 's/\(^[[:space:]]*\)locking_type[[:space:]]*=[[:space:]]*[[:digit:]]/\1locking_type = 1/' ${initdir}/etc/lvm/lvm.conf
             sed -i -e 's/\(^[[:space:]]*\)event_activation[[:space:]]*=[[:space:]]*[[:digit:]]/\1event_activation = 1/' ${initdir}/etc/lvm/lvm.conf
             # FIXME autoactivation list
         fi
@@ -68,7 +68,7 @@ install() {
         mkdir -p "${initdir}/etc/lvm"
         {
             echo 'global {'
-            echo 'locking_type = 4'
+            echo 'locking_type = 1'
             echo '}'
         } > "${initdir}/etc/lvm/lvm.conf"
     fi
