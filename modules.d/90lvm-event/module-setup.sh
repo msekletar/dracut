@@ -40,6 +40,7 @@ install() {
     inst $systemdsystemunitdir/lvm2-pvscan@.service
 
     inst_hook cmdline 30 "$moddir/generate-lvm-conf.sh"
+    inst_hook cleanup 30 "$moddir/stop-failed-pvscan.sh"
 
     mkdir -p ${initdir}/etc/systemd/system/lvm2-pvscan@.service.d
     {
@@ -94,11 +95,17 @@ install() {
                     break;;
             esac
         done
+
+        raid=$(lvs -o layout | grep -o -E 'raid[0-9]+' | tr ',' ' ')
+        if [ -n "$raid" ]; then
+            inst_multiple -o dm_raid "$raid"
+        fi
     fi
 
     if ! [[ $hostonly ]]; then
         inst_multiple -o thin_dump thin_restore thin_check thin_repair \
                       cache_dump cache_restore cache_check cache_repair \
-                      era_check era_dump era_invalidate era_restore
+                      era_check era_dump era_invalidate era_restore \
+                      dm-raid raid0 raid1 raid10 raid456
     fi
 }
